@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Availability</title>
+    <link rel="stylesheet" href="./style.css">
+    <style>
+      .block {
+        width: 300px;
+        height: 300px;
+        display: inline-block;
+        margin-right: 10px;
+        background-color: blue;
+      }
+      .red {
+        background-color: red;
+      }
+      .container{
+        margin-left: 260px;
+        margin-top: 200px;
+      }
+      #text{
+        font-size: 25px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="block" id="block1">
+        <img id="b1" class="img11" src="" alt="">
+        <label id="text">Time duration = ____________<label id='lab1' for="b1">Price = </label></label>
+
+      </div>
+      <div class="block" id="block2">
+        <img id="b2" class="img11" src="" alt="">
+        <label id="text">Time duration = <label id='lab2' for="b2">Label2</label></label>
+        <br>
+        
+        
+
+      </div>
+      <div class="block" id="block3">
+        <img class="img11" src="" alt="">
+        <label id="text">Time duration = <label id="lab3" for="b3">Label3</label></label>
+        <br>
+
+      </div>
+    </div>
+
+    <!--<h2>No of vehicles = <h2 id="count">0</h2></h2>-->
+    <script>
+      const socket = new WebSocket('ws://localhost:3000');
+
+      socket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        console.log(data);
+
+        var block1 = document.getElementById(`block1`);
+        var block2 = document.getElementById(`block2`);
+        var block3 = document.getElementById(`block3`);
+        var img1 = block1.querySelector('img');
+        var img2 = block2.querySelector('img');
+        var img3 = block3.querySelector('img');
+
+        //const label_1 = document.querySelector('lab1');
+        const label_2 = document.querySelector('lab2');
+        const label_3 = document.querySelector('lab3');
+        //const countEl = document.getElementById("count");
+        var count = 0;
+        var true_1, True_1;
+
+        //const price_2 = document.querySelector('price_2');
+        //const price_3 = document.querySelector('price_3');
+
+
+
+
+        if(data[0][0]){
+          img1.src = './public/parkedd.png';
+          //document.getElementById('lab1').textContent = "Vehicle Parked";
+          //lab1.textContent = 'Vehicle Parked'
+        } else {
+          img1.src = './public/not.jpg'; 
+          //lab1.textContent = data[1][0];
+          //document.getElementById('lab2').textContent = data[1][0];
+          
+        }
+
+        if(data[0][1]){
+          img2.src = './public/parkedd.png';
+          //document.getElementById('lab2').textContent = "Vehicle Parked";
+          lab2.textContent = 'Vehicle Parked';
+          
+          //countEl.textContent = count;
+          //true_1 = true;
+
+        } else {
+          img2.src = './public/not.jpg';
+          //document.getElementById('lab2').textContent = data[1][1];
+          lab2.textContent = data[1][1]+' hours     Price = '+String(Number(data[1][1]*100).toFixed(3));
+          //price_2.textContent = String(Number(data[1][1])*100);
+          //console.log('time diff = '+data[1][1]);
+        }
+
+        /*if(true_1 && True_1){
+          count = parseInt(countEl.textContent) + 1;
+          countEl.textContent = count;
+          True_1 = false;
+          true_1 = false;
+
+        }*/
+
+        if(data[0][2]){
+          img3.src = './public/parkedd.png';
+          lab3.textContent = 'Vehicle Parked';
+          //document.getElementById('lab3').textContent = "Vehicle Parked";
+        } else {
+          img3.src = './public/not.jpg';
+          lab3.textContent = data[1][2]+' hours      Price = '+String((Number(data[1][2])*100).toFixed(3));
+          //price_3.textContent = String(Number(data[1][2])*100);
+          //document.getElementById('lab2').textContent = data[1][2];
+        }
+
+        // update browser display with availability data
+        /*data.forEach((doc) => {
+          //console.log(doc.Available);
+          if (doc.Available) {
+            document.getElementById(`block${doc.Slot_Id}`).classList.add('red');
+          } else {
+            document.getElementById(`block${doc.Slot_Id}`).classList.remove('red');
+          }
+        });*/
+      };
+    </script>
+  </body>
+</html>

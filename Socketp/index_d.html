@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Availability</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <style>
+      .block {
+        width: 300px;
+        height: 300px;
+        display: inline-block;
+        margin-right: 10px;
+        background-color: blue;
+      }
+      .red {
+        background-color: red;
+      }
+      .container{
+        margin-left: 260px;
+        margin-top: 200px;
+      }
+      #text{
+        font-size: 25px;
+      }
+      .size{
+        width: 700px;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark" >
+      <!-- Navbar content -->
+     <div style="color: aliceblue; ">Special Communication System </div> 
+    </nav>
+    <div>
+      <h2 style="margin-left: 600px; margin-top: 30px;">Received Messages</h2>
+    </div>
+    <div class="container" id="parent"> 
+
+      
+    </div>
+
+    <!--<h2>No of vehicles = <h2 id="count">0</h2></h2>-->
+    <script>
+      const socket = new WebSocket('ws://localhost:3000');
+      const parentElement = document.getElementById('parent');
+
+      socket.onmessage = (event) => {
+        const data = event.data;
+        console.log(data);
+        const newMessage = document.createElement('div');
+        newMessage.classList.add("alert", "alert-primary", "size");
+        console.log(newMessage);
+        if(data == 'A'){
+          newMessage.textContent = 'Emergency!!'
+        }
+        else if(data == 'B'){
+          newMessage.textContent = 'Need Medicine';
+        }else if(data == 'C'){
+          newMessage.textContent = 'Need Water';
+        }else{
+          newMessage.textContent = 'Wrong input';
+        }
+        parentElement.append(newMessage);
+      };
+    </script>
+  </body>
+</html>
